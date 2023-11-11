@@ -4,25 +4,25 @@ import com.skyPro.Algaritm24.Exception.ElementNotFoundException;
 import com.skyPro.Algaritm24.Exception.InvalidIndexException;
 import com.skyPro.Algaritm24.Exception.ItemNullException;
 import com.skyPro.Algaritm24.Exception.StorageIsFullException;
-import com.skyPro.Algaritm24.Interface.StringList;
+import com.skyPro.Algaritm24.Interface.IntegerList;
 
 import java.util.Arrays;
+import java.util.Collections;
 
-
-public class StringListImp implements StringList {
-    private final String[] storage;
+public class IntegerListImpl implements IntegerList {
+    protected Integer[] storage;
     private int size;
 
-    public StringListImp() {
-        this.storage = new String[size];
+    public IntegerListImpl() {
+        this.storage = new Integer[size];
     }
-    public StringListImp(int size) {
-        storage = new String[size];
+    public IntegerListImpl(int size) {
+        storage = new Integer[size];
     }
 
 
     @Override
-    public String add(String item) {
+    public Integer add(Integer item) {
         checkItem(item);
         checkSize();
         storage[size++] = item;
@@ -30,7 +30,7 @@ public class StringListImp implements StringList {
     }
 
     @Override
-    public String add(int index, String item) {
+    public Integer add(int index, Integer item) {
         checkSize();
         checkIndex(index);
         checkItem(item);
@@ -45,7 +45,7 @@ public class StringListImp implements StringList {
     }
 
     @Override
-    public String remove(String item) {
+    public Integer remove(Integer item) {
         checkItem(item);
         int index = indexOf(item);
         if(index == -1){
@@ -61,32 +61,36 @@ public class StringListImp implements StringList {
     }
 
     @Override
-    public String remove(int index) {
+    public Integer remove(int index) {
         checkIndex(index);
-        String item = storage[index];
+        Integer item = storage[index];
         if(index != size){
-        System.arraycopy(storage,index+1,storage,index,size-(index+1));}
+            System.arraycopy(storage,index+1,storage,index,size-(index+1));}
         size--;
         return item;
     }
 
     @Override
-    public boolean contains(String item) {
+    public Integer set(int index, Integer item) {
+        checkIndex(index);
+        checkItem(item);
+        storage[index]=item;
+        return item;
+    }
+
+    @Override
+    public boolean contains(Integer item) {
         return indexOf(item) != -1;
     }
 
     @Override
-    public int indexOf(String item) {
-        for (int i = 0; i < size ; i++) {
-           if(storage[i].equals(item)){
-                return i;
-            }
-        }
-        return -1;
+    public int indexOf(Integer item) {
+        checkItem(item);
+        return Collections.binarySearch(Arrays.asList(storage), item);
     }
 
     @Override
-    public int lastIndexOf(String item) {
+    public int lastIndexOf(Integer item) {
         for (int i = size-1; i>=0 ; i--) {
             if (storage[i].equals(item)){
                 return i;
@@ -96,21 +100,13 @@ public class StringListImp implements StringList {
     }
 
     @Override
-    public String get(int index) {
+    public Integer get(int index) {
         checkIndex(index);
         return storage[index];
     }
 
     @Override
-    public String set(int index, String item) {
-        checkIndex(index);
-        checkItem(item);
-        storage[index]=item;
-        return item;
-    }
-
-    @Override
-    public boolean equals(StringList otherList) {
+    public boolean equals(IntegerList otherList) {
         return Arrays.equals(this.toArray(),otherList.toArray());
     }
 
@@ -126,11 +122,12 @@ public class StringListImp implements StringList {
 
     @Override
     public void clear() {
-        size=0;
+        size = 0;
+
     }
 
     @Override
-    public String[] toArray() {
+    public Integer[] toArray() {
         return Arrays.copyOf(storage,size());
     }
     private void checkSize(){
@@ -138,7 +135,7 @@ public class StringListImp implements StringList {
             throw new StorageIsFullException("в массиве нет свободного места");
         }
     }
-    private void checkItem(String item){
+    private void checkItem(Integer item){
         if (item == null){
             throw new ItemNullException("элемент отсутствует");
         }
@@ -146,6 +143,22 @@ public class StringListImp implements StringList {
     private void checkIndex(int index){
         if(index<0||index>=size()){
             throw new InvalidIndexException("индекс не соответствует параметрам");
+        }
+    }
+
+    void compress() {
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
+                continue;
+            }
+
+            for (int j = i; j < storage.length; j++) {
+                if (storage[j] != null) {
+                    storage[i] = storage[j];
+                    storage[j] = null;
+                    break;
+                }
+            }
         }
     }
 }

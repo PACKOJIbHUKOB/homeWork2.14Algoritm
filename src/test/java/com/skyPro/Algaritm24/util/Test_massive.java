@@ -8,4 +8,10 @@ public class Test_massive {
     static public final String TEXT_4 ="прибывание";
 
 
+    static public final Integer NUMBER_1 =1;
+    static public final Integer NUMBER_2 =2;
+    static public final Integer NUMBER_3 =3;
+    static public final Integer NUMBER_4 =4;
+
+
 }
