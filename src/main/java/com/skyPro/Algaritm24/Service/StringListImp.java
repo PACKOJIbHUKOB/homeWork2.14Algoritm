@@ -7,17 +7,20 @@ import com.skyPro.Algaritm24.Exception.StorageIsFullException;
 import com.skyPro.Algaritm24.Interface.StringList;
 
 import java.util.Arrays;
+import java.util.Objects;
+
 
 public class StringListImp implements StringList {
     private final String[] storage;
     private int size;
 
     public StringListImp() {
-        storage = new String[10];
+        this.storage = new String[size];
     }
-    public StringListImp(int initSize){
-        storage = new String[initSize];
+    public StringListImp(int size) {
+        storage = new String[size];
     }
+
 
     @Override
     public String add(String item) {
@@ -37,7 +40,7 @@ public class StringListImp implements StringList {
             return item;
         }
         System.arraycopy(storage,index,storage,index+1,size-index);
-        storage[size++] = item;
+        storage[index] = item;
         size++;
         return item;
     }
