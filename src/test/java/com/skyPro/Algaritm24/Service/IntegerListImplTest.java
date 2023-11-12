@@ -176,7 +176,7 @@ class IntegerListImplTest {
     }
 
     @Test
-    void set_access_success() {
+    void set_success() {
         Integer item = NUMBER_1;
         Integer item1 = NUMBER_2;
         Integer item2 = NUMBER_3;
@@ -231,13 +231,16 @@ class IntegerListImplTest {
         Integer item3 = NUMBER_4;
         int size = 4;
         //подготовка ожидаемого результата
-        int expected = size;
+        int expected = 7;
         //начало теста
         IntegerList integerList = new IntegerListImpl(size);
         integerList.add(item);
         integerList.add(item1);
         integerList.add(item2);
         integerList.add(item3);
+        integerList.add(5);
+        integerList.add(6);
+        integerList.add(7);
         int actual = integerList.size();
         assertEquals(expected, actual);
     }

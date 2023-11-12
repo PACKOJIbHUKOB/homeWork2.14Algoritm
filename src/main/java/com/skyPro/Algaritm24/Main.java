@@ -11,39 +11,33 @@ public class Main {
             findFastedSortMethod();
         }
         private static void findFastedSortMethod() {
-            IntegerList integerList = new SortedIntegerListImpl(5);
-            integerList.add(9);
-            integerList.add(51);
-            integerList.add(126);
-            integerList.add(1489);
-            integerList.add(951);
+            Integer[] arr = generateRandomArray();
             System.out.println("Bubble sort");
-
             long start = System.currentTimeMillis();
-            System.out.println(Arrays.toString(SortedUtil.bubbleSort(Arrays.copyOf(integerList.toArray(), integerList.size()))));
+            SortedUtil.bubbleSort(arr);
             System.out.println(System.currentTimeMillis() - start + " ms.");
-            IntegerList integerList2 = new SortedIntegerListImpl(5);
-            integerList2.add(9);
-            integerList2.add(1489);
-            integerList2.add(126);
-            integerList2.add(51);
-            integerList2.add(951);
+
+            Integer[] arr2 = generateRandomArray();
             System.out.println("Selection sort");
-
             start = System.currentTimeMillis();
-            System.out.println(Arrays.toString(SortedUtil.selectionSort(Arrays.copyOf(integerList2.toArray(), integerList2.size()))));
-            System.out.println(System.currentTimeMillis() - start + " ms.");
-            IntegerList integerList3 = new SortedIntegerListImpl(5);
-            integerList3.add(9);
-            integerList3.add(51);
-            integerList3.add(126);
-            integerList3.add(1489);
-            integerList3.add(951);
+            SortedUtil.selectionSort(arr2);
+            System.out.println(System.currentTimeMillis() - start);
+
+            Integer[] arr3 = generateRandomArray();
             System.out.println("Insertion sort");
-
             start = System.currentTimeMillis();
-            System.out.println(Arrays.toString(SortedUtil.insertionSort(Arrays.copyOf(integerList3.toArray(), integerList3.size()))));
-            System.out.println(System.currentTimeMillis() - start + " ms.");
+            SortedUtil.insertionSort(arr3);
+            /*System.out.println(Arrays.toString(arr3));*/
+            System.out.println(System.currentTimeMillis() - start + "ms");
+
         }
+    public static Integer[] generateRandomArray() {
+        java.util.Random random = new java.util.Random();
+        Integer[] arr = new Integer[100000];
+        for (Integer i = 0; i < arr.length; i++) {
+            arr[i] = random.nextInt(100_000) + 100_000;
+        }
+        return arr;
+    }
     }
 

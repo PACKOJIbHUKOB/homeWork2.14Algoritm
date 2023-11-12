@@ -3,7 +3,6 @@ package com.skyPro.Algaritm24.Service;
 import com.skyPro.Algaritm24.Exception.ElementNotFoundException;
 import com.skyPro.Algaritm24.Exception.InvalidIndexException;
 import com.skyPro.Algaritm24.Exception.ItemNullException;
-import com.skyPro.Algaritm24.Exception.StorageIsFullException;
 import com.skyPro.Algaritm24.Interface.IntegerList;
 
 import java.util.Arrays;
@@ -24,14 +23,14 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public Integer add(Integer item) {
         checkItem(item);
-        checkSize();
+        grow();
         storage[size++] = item;
         return item;
     }
 
     @Override
     public Integer add(int index, Integer item) {
-        checkSize();
+        grow();
         checkIndex(index);
         checkItem(item);
         if (index == size){
@@ -130,10 +129,12 @@ public class IntegerListImpl implements IntegerList {
     public Integer[] toArray() {
         return Arrays.copyOf(storage,size());
     }
-    private void checkSize(){
-        if(size()==storage.length){
-            throw new StorageIsFullException("в массиве нет свободного места");
+
+    private void grow(){
+        if(size()>=storage.length){
+            storage=Arrays.copyOf(storage,size+(size/2));
         }
+
     }
     private void checkItem(Integer item){
         if (item == null){
